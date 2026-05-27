@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} Providers - LocalAid{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <h1 class="mb-4">
+        <i class="bi bi-{{ service.icon }}"></i> {{ service.name }} Providers
+    </h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-8">
+                    <label for="location_id" class="form-label">Filter by Location</label>
+                    <select class="form-select" id="location_id" name="location_id">
+                        <option value="">-- All Locations --</option>
+                        {% for location in locations %}
+                        <option value="{{ location.id }}">{{ location.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-funnel"></i> Filter
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if providers %}
+    <p class="text-muted mb-4">Found {{ providers|length }} provider(s)</p>
+    <div class="row">
+        {% for provider in providers %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ provider.provider_name }}</h5>
+                    <p class="card-text">
+                        <strong>Location:</strong> {{ provider.location.name }}<br>
+                        <strong>Rating:</strong>
+                        <span class="badge bg-warning">{{ provider.rating if provider.rating else 'N/A' }}</span>
+                    </p>
+                    {% if provider.description %}
+                    <p class="card-text text-muted">{{ provider.description }}</p>
+                    {% endif %}
+                    <hr>
+                    <p class="card-text small">
+                        <i class="bi bi-telephone"></i> {{ provider.contact_info }}<br>
+                        <i class="bi bi-envelope"></i> {{ provider.email if provider.email else 'N/A' }}
+                    </p>
+                    {% if is_logged_in %}
+                        <form method="POST" action="{{ url_for('dashboard.add_bookmark', provider_id=provider.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-bookmark"></i> Bookmark
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-bookmark"></i> Bookmark
+                        </a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        No providers found for this service. Try adjusting your filters.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

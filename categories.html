@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Services - LocalAid{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <h1 class="mb-4">
+        <i class="bi bi-grid-3x3"></i> Browse Services
+    </h1>
+
+    <div class="row">
+        {% for service in services %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="bi bi-{{ service.icon }}"></i> {{ service.name }}
+                    </h5>
+                    <p class="card-text text-muted">{{ service.description }}</p>
+                    <a href="{{ url_for('services.service_detail', service_id=service.id) }}" class="btn btn-primary">
+                        View Providers
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

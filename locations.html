@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Locations - LocalAid{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <h1 class="mb-4">
+        <i class="bi bi-geo-alt"></i> Locations
+    </h1>
+
+    <div class="row">
+        {% for location in locations %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="bi bi-geo-alt"></i> {{ location.name }}
+                    </h5>
+                    <p class="card-text text-muted">
+                        {{ location.description or 'Find trusted local services here.' }}
+                    </p>
+                    <a href="{{ url_for('locations.location_detail', location_id=location.id) }}"
+                       class="btn btn-primary">
+                        View Providers
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

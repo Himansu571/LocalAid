@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}LocalAid - Find Local Services{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <section class="hero-section text-center mb-5">
+        <h1 class="display-4 mb-3">Find Local Services Near You</h1>
+        <p class="lead text-muted mb-4">Connect with trusted service providers across Odisha</p>
+        <a href="{{ url_for('main.search') }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-search"></i> Start Searching
+        </a>
+    </section>
+
+    <section class="stats-section mb-5">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="text-primary">{{ services_count }}</h3>
+                        <p class="text-muted"><i class="bi bi-grid-3x3"></i> Services</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="text-success">{{ locations_count }}</h3>
+                        <p class="text-muted"><i class="bi bi-geo-alt"></i> Locations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="text-info">{{ providers_count }}</h3>
+                        <p class="text-muted"><i class="bi bi-people"></i> Providers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h3 class="text-warning">100%</h3>
+                        <p class="text-muted"><i class="bi bi-star"></i> Verified</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section mb-5">
+        <h2 class="mb-4">Browse Services</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('services.list_services') }}" class="btn btn-outline-primary btn-lg w-100">
+                    <i class="bi bi-grid-3x3"></i> All Services
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('main.search') }}" class="btn btn-outline-success btn-lg w-100">
+                    <i class="bi bi-search"></i> Search
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('locations.list_locations') }}" class="btn btn-outline-info btn-lg w-100">
+                    <i class="bi bi-geo-alt"></i> By Location
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {% if featured_providers %}
+    <section class="featured-section">
+        <h2 class="mb-4">Featured Service Providers</h2>
+        <div class="row">
+            {% for provider in featured_providers %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ provider.provider_name }}</h5>
+                        <p class="card-text text-muted">
+                            <strong>Service:</strong> {{ provider.service.name }}<br>
+                            <strong>Location:</strong> {{ provider.location.name }}<br>
+                            <strong>Rating:</strong> <span class="badge bg-warning">{{ provider.rating if provider.rating else 'N/A' }}</span>
+                        </p>
+                        <p class="card-text">
+                            <i class="bi bi-telephone"></i> {{ provider.contact_info }}<br>
+                            <i class="bi bi-envelope"></i> {{ provider.email if provider.email else 'N/A' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

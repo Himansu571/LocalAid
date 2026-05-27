@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Add Service - LocalAid{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <h1 class="mb-4">
+        <i class="bi bi-plus-circle"></i> Add Service
+    </h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control") }}
+                    {% for error in form.name.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control", rows="3") }}
+                    {% for error in form.description.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.icon.label(class="form-label") }}
+                    {{ form.icon(class="form-control") }}
+                    <div class="form-text">Bootstrap icon name, e.g. "wrench", "tools", "house".</div>
+                    {% for error in form.icon.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Service
+                </button>
+                <a href="{{ url_for('admin.manage_services') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

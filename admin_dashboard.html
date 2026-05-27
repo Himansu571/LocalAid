@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - LocalAid{% endblock %}
+{% block content %}
+<div class="container-lg py-5">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h2><i class="bi bi-shield-lock"></i> Admin Dashboard</h2>
+            <a href="{{ url_for('admin.admin_logout') }}" class="btn btn-danger">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h3>{{ services_count }}</h3>
+                    <p>Services</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h3>{{ locations_count }}</h3>
+                    <p>Locations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h3>{{ providers_count }}</h3>
+                    <p>Providers</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <h3>{{ users_count }}</h3>
+                    <p>Users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-tools"></i> Services</h5>
+                    <a href="{{ url_for('admin.manage_services') }}" class="btn btn-primary btn-sm w-100 mb-2">
+                        <i class="bi bi-list"></i> Manage Services
+                    </a>
+                    <a href="{{ url_for('admin.add_service') }}" class="btn btn-success btn-sm w-100">
+                        <i class="bi bi-plus"></i> Add Service
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-geo-alt"></i> Locations</h5>
+                    <a href="{{ url_for('admin.manage_locations') }}" class="btn btn-primary btn-sm w-100 mb-2">
+                        <i class="bi bi-list"></i> Manage Locations
+                    </a>
+                    <a href="{{ url_for('admin.add_location') }}" class="btn btn-success btn-sm w-100">
+                        <i class="bi bi-plus"></i> Add Location
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-person"></i> Users</h5>
+                    <p class="card-text">Total Users: <strong>{{ users_count }}</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    
+    <div class="row">
+        <div class="col-12">
+            <h4>Recent Service Providers</h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Service</th>
+                            <th>Location</th>
+                            <th>Contact</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for provider in recent_providers %}
+                        <tr>
+                            <td>{{ provider.provider_name }}</td>
+                            <td>{{ provider.service.name }}</td>
+                            <td>{{ provider.location.name }}</td>
+                            <td>{{ provider.contact_info }}</td>
+                            <td><span class="badge bg-warning text-dark">{{ provider.rating }}/5</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
